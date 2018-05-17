@@ -1,4 +1,5 @@
 win=((1,2,3,4),(5,6,7,8),(9,10,11,12),(13,14,15,None))
+in_puzzle=() #The puzzle which we are attempting to solve
 
 def null_piece(position):
     for row in range(4):
@@ -20,5 +21,11 @@ def eval_pos(board):
     return total
 
 def gen_tree():
-    pass
+    tree=[[[0,in_puzzle]]]
+    for i in range(depth):
+        tree.append([])
+        for node in tree[i]:
+            movelist=moves(node[1])
+            for move in movelist:
+                tree[i+1].append([node[1], move])
 
