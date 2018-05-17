@@ -47,8 +47,20 @@ def eval_pos(board):
                 total +=1
     return total
 
+def find_max_pos(tree):
+    high_pos=None
+    high_pos_score=0
+    lastgen=len(tree)-1
+    for node in tree[lastgen]:
+        pos=node[1]
+        score=eval_pos(node[1])
+        if score > high_pos_score:
+            high_pos=pos
+            high_pos_score=score
+    return high_pos, high_pos_score
+
 def gen_tree(depth):
-    tree=[[[0,in_puzzle]]]
+    tree=[[[None,in_puzzle]]] #0th level, tree; 1st level, generation; 2nd level, node: [parent, position]
     for i in range(depth):
         tree.append([])
         for node in tree[i]:
@@ -58,4 +70,5 @@ def gen_tree(depth):
     return tree
 
 out = gen_tree(2)
-print out
+print find_max_pos(out)
+
