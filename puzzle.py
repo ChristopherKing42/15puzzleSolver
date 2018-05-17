@@ -29,6 +29,15 @@ def moves(position):
         rep.append(tuple(new_position))
     return rep
 
+def display(position):
+    for row in range(4):
+        for column in range(4):
+            if position[row][column]:
+                print "{:>2} ".format(position[row][column]),
+            else:
+                print " _ ",
+        print
+
 def eval_pos(board):
     total=0
     for i in range(4):
