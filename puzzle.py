@@ -6,10 +6,28 @@ def null_piece(position):
             if position[row][column] == None:
                 return row, column
                 
-def neighbors((x,y)): return [(x_,y_) for (x_,y_) in [(x-1,y),(x+1,y),(x,y-1),(x,y+1)] if 0 <= x_ and x_ < 4 and 0 <= y_ and y_ < 4]
+def neighbors((x,y)):
+    return [(x_,y_) for (x_,y_) in [(x-1,y),(x+1,y),(x,y-1),(x,y+1)]
+            if 0 <= x_ and x_ < 4 and 0 <= y_ and y_ < 4]
 
 def moves(position):
-    return [position]
+    null_cell = null_piece(position)
+    movable = neighbors(null_cell)
+    rep = []
+    for (x,y) in movable:
+        new_position = []
+        for row in range(4):
+            new_row = []
+            for column in range(4):
+                if (row,column) == null_cell:
+                    new_row.append(position[x][y])
+                elif (row,column) == (x,y):
+                    new_row.append(position[null_cell[0]][null_cell[1]])
+                else:
+                    new_row.append(position[row][column])
+            new_position.append(tuple(new_row))
+        rep.append(tuple(new_position))
+    return rep
 
 def eval_pos(board):
     total=0
