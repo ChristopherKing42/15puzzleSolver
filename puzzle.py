@@ -99,4 +99,7 @@ def mainloop():
     print hist
     print "Done"
 
+def display_history(hist):
+    for pos in hist: display(pos)
+
 mainloop()
