@@ -1,6 +1,6 @@
 win=((1,2,3,4),(5,6,7,8),(9,10,11,12),(13,14,15,None))
-#in_puzzle=() #The puzzle which we are attempting to solve
-in_puzzle=win
+in_puzzle=() #The puzzle which we are attempting to solve
+
 def null_piece(position):
     for row in range(4):
         for column in range(4):
@@ -86,6 +86,9 @@ def trace_tree(position,tree):
         gen -= 1
     return history
 
+def display_history(hist):
+    for pos in hist: display(pos)
+
 def mainloop():
     depth=5
     out = gen_tree(depth)
@@ -97,12 +100,9 @@ def mainloop():
         out=gen_tree(depth)
         fin=find_max_pos(out)
         fin_pos=fin[0]
-        fin_score=fin[1]]
+        fin_score=fin[1]
         hist += trace_tree(fin_pos, out)
-    print hist
+    display_history(hist)
     print "Done"
-
-def display_history(hist):
-    for pos in hist: display(pos)
-
+    
 mainloop()
