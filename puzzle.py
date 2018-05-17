@@ -69,6 +69,11 @@ def gen_tree(depth):
                 tree[i+1].append([node[1], move])
     return tree
 
-out = gen_tree(2)
-print find_max_pos(out)
+def mainloop():
+    depth=2
+    out = gen_tree(depth)
+    while find_max_pos(out)[1] < 16:
+        print find_max_pos(out)[0]
+        out=gen_tree(depth)
+    print "Done"
 
