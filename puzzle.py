@@ -14,7 +14,7 @@ def neighbors((x,y)):
 def moves(position):
     null_cell = null_piece(position)
     movable = neighbors(null_cell)
-    rep = []
+    rep = [position]
     for (x,y) in movable:
         new_position = []
         for row in range(4):
@@ -60,14 +60,31 @@ def find_max_pos(tree):
     return high_pos, high_pos_score
 
 def gen_tree(depth):
-    tree=[[[None,in_puzzle]]] #0th level, tree; 1st level, generation; 2nd level, node: [parent, position]
+    tree=[[(None,in_puzzle)]] #0th level, tree; 1st level, generation; 2nd level, node: [parent, position]
     for i in range(depth):
         tree.append([])
         for node in tree[i]:
             movelist=moves(node[1])
             for move in movelist:
-                tree[i+1].append([node[1], move])
+                tree[i+1].append((node[1], move))
     return tree
+
+def trace_tree(position,tree):
+    history = [position]
+    gen = -1
+    parent = True
+    while parent:
+        pairs = tree[gen]
+        for (parent,child) in pairs:
+            if child == position:
+                if parent:
+                    history.append(parent)
+                    break
+                else:
+                    break
+        position = parent
+        gen -= 1
+    return history
 
 def mainloop():
     depth=2
@@ -76,4 +93,3 @@ def mainloop():
         print find_max_pos(out)[0]
         out=gen_tree(depth)
     print "Done"
-
