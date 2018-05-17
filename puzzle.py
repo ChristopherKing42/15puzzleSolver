@@ -6,6 +6,11 @@ def null_piece(position):
             if position[row][column] == None:
                 return row, column
 
+def neighbors((x,y)): return [(x_,y_) for (x_,y_) in [(x-1,y),(x+1,y),(x,y-1),(x,y+1)] if 0 <= x_ and x_ < 4 and 0 <= y_ and y_ < 4]
+
+def moves(position):
+    return [position]
+
 def eval_pos(board):
     total=0
     for i in range(4):
@@ -16,3 +21,4 @@ def eval_pos(board):
 
 def gen_tree():
     pass
+
