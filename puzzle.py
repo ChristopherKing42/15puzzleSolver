@@ -97,12 +97,14 @@ def mainloop():
         out=gen_tree(depth)
         fin=find_max_pos(out)
         fin_pos=fin[0]
-        fin_score=fin[1]]
+        fin_score=fin[1]
         hist += trace_tree(fin_pos, out)
     print hist
     print "Done"
 
 def display_history(hist):
-    for pos in hist: display(pos)
+    for pos in hist:
+        display(pos)
+        print "---------------"
 
 mainloop()
