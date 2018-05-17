@@ -89,12 +89,15 @@ def trace_tree(position,tree):
 def mainloop():
     depth=5
     out = gen_tree(depth)
-    fin_pos=find_max_pos(out)[1]
+    fin=find_max_pos(out)
+    fin_pos=fin[0]
+    fin_score=fin[1]
     hist=trace_tree(fin_pos,out)
-    while fin_pos < 16:
-        print fin_pos[0]
+    while fin_score < 16:
         out=gen_tree(depth)
-        fin_pos=find_max_pos(out)[1]
+        fin=find_max_pos(out)
+        fin_pos=fin[0]
+        fin_score=fin[1]]
         hist += trace_tree(fin_pos, out)
     print hist
     print "Done"
