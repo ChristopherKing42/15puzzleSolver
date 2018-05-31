@@ -39,6 +39,12 @@ def display(position):
                 print " _ ",
         print
 
+def find_piece(position, num = None):
+    for row in range(4):
+        for column in range(4):
+            if position[row][column] == num:
+                return row, column
+
 def eval_pos(board, pathlength):
     total=0
     for num in [None]+range(1,15+1):
