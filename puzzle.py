@@ -46,33 +46,3 @@ def eval_pos(board, pathlength):
         (x_,y_) = find_piece(win,num)
         total += abs(x-x_) + abs(y-y_)1
     return total+pathlength
-
-def display_history(hist):
-    for pos in hist:
-        display(pos)
-        print "---------------"
-        
-def mainloop():
-    global in_puzzle
-    print "INPUT:"
-    display(in_puzzle)
-    print "---------------"
-    depth=11
-    out = gen_tree(depth)
-    fin=find_max_pos(out)
-    fin_pos=fin[0]
-    fin_score=fin[1]
-    hist=trace_tree(fin_pos,out)
-    in_puzzle=fin_pos
-    while fin_score < 16:
-        display(fin_pos)
-        print fin_score
-        out=gen_tree(depth)
-        fin=find_max_pos(out)
-        fin_pos=fin[0]
-        fin_score=fin[1]
-        hist += trace_tree(fin_pos, out)
-    display_history(hist)
-    print "Done"
-
-mainloop()
