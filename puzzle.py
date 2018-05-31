@@ -53,8 +53,6 @@ def eval_pos(board, pathlength):
         total += abs(x-x_) + abs(y-y_)
     return total+pathlength
 
-start = [([in_puzzle], 0, eval_pos(in_puzzle,0))]
-
 def Astar(tree):
     new_tree = tree[:]
     best_f = 1000000 # Big number
@@ -73,3 +71,14 @@ def Astar(tree):
         new_tree.append(([pos]+best_node[0], g, f))
 
     return (best_node[0][0],new_tree)
+
+def mainloop():
+    start = [([in_puzzle], 0, eval_pos(in_puzzle,0))]
+    outposition, outtree=Astar(start)
+    while outposition != win:
+        display(outposition)
+        print outtree
+        outposition, outtree=Astar(outtree)
+        raw_input()
+    
+mainloop()
