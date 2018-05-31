@@ -41,10 +41,10 @@ def display(position):
 
 def eval_pos(board, pathlength):
     total=0
-    for i in range(4):
-        for x in range(4):
-            if board[i][x] == win[i][x]:
-                total +=1
+    for num in [None]+range(1,15+1):
+        (x,y) = find_piece(board,num)
+        (x_,y_) = find_piece(win,num)
+        total += abs(x-x_) + abs(y-y_)1
     return total+pathlength
 
 def display_history(hist):
