@@ -39,13 +39,13 @@ def display(position):
                 print " _ ",
         print
 
-def eval_pos(board):
+def eval_pos(board, pathlength):
     total=0
     for i in range(4):
         for x in range(4):
             if board[i][x] == win[i][x]:
                 total +=1
-    return total
+    return total+pathlength
 
 def display_history(hist):
     for pos in hist:
