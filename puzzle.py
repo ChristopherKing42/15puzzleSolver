@@ -39,15 +39,15 @@ def display(position):
                 print " _ ",
         print
 
-def eval_pos(board):
+def eval_pos(board, pathlength):
     total=0
-    for i in range(4):
-        for x in range(4):
-            if board[i][x] == win[i][x]:
-                total +=1
-    return total
+    for num in [None]+range(1,15+1):
+        (x,y) = find_piece(board,num)
+        (x_,y_) = find_piece(win,num)
+        total += abs(x-x_) + abs(y-y_)
+    return total+pathlength
 
-start = [([in_puzzle], 0, eval_pos(in_puzzle))]
+start = [([in_puzzle], 0, eval_pos(in_puzzle,0))]
 
 def Astar(tree):
     new_tree = tree[:]
@@ -63,7 +63,7 @@ def Astar(tree):
     new_poss = moves(best_node[0][0])
     for pos in new_poss:
         g = best_node[1] + 1
-        f = g + eval_pos(pos)
+        f = eval_pos(pos, g)
         new_tree.append(([pos]+best_node[0], g, f))
 
     return (best_node[0][0],new_tree)
