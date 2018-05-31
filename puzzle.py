@@ -45,19 +45,20 @@ def find_piece(position, num = None):
             if position[row][column] == num:
                 return row, column
 
-def eval_pos(board, pathlength):
+def eval_pos(board, pathlength,e):
     total=0
     for num in [None]+range(1,15+1):
         (x,y) = find_piece(board,num)
         (x_,y_) = find_piece(win,num)
         total += abs(x-x_) + abs(y-y_)
-    return total+pathlength
+    return total*e+pathlength
 
+epsilon=int(raw_input("What epsilon would you like? "))
 
-start = ([([in_puzzle], 0, eval_pos(in_puzzle,0))],set())
+start = ([([in_puzzle], 0, eval_pos(in_puzzle,0,epsilon))],set())
 
 def Astar((tree,old)):
-    best_f = 1000000 # Big number
+    best_f = 1000000000 # Big number
     best_node = None
     for node in tree:
         if node[2] < best_f:
@@ -72,19 +73,20 @@ def Astar((tree,old)):
         if pos in old:
             continue
         g = best_node[1] + 1
-        f = eval_pos(pos, g)
+        f = eval_pos(pos, g, epsilon)
         tree.append(([pos]+best_node[0], g, f))
     return best_node
 
 def mainloop():
     x=0
-    best_node = Astar(start)
-    while True:
+    best_node = Astar(start)[0]
+    while best_node[0][0] != win:
         if x == 1000:
             display(best_node[0][0])
+            print best_node[1]
             print
             x=0
         best_node = Astar(start)
         x+=1
-    
-# mainloop()
+    print best_node
+mainloop()
