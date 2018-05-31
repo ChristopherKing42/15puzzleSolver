@@ -50,5 +50,26 @@ def eval_pos(board, pathlength):
     for num in [None]+range(1,15+1):
         (x,y) = find_piece(board,num)
         (x_,y_) = find_piece(win,num)
-        total += abs(x-x_) + abs(y-y_)1
+        total += abs(x-x_) + abs(y-y_)
     return total+pathlength
+
+start = [([in_puzzle], 0, eval_pos(in_puzzle,0))]
+
+def Astar(tree):
+    new_tree = tree[:]
+    best_f = 1000000 # Big number
+    best_node = None
+    for node in tree:
+        if node[2] < best_f:
+            best_f = node[2]
+            best_node = node
+
+    new_tree.remove(best_node)
+    #best_node is now the node with the best distance+heuristic
+    new_poss = moves(best_node[0][0])
+    for pos in new_poss:
+        g = best_node[1] + 1
+        f = eval_pos(pos, g)
+        new_tree.append(([pos]+best_node[0], g, f))
+
+    return (best_node[0][0],new_tree)
