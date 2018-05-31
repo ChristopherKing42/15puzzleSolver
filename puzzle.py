@@ -16,6 +16,7 @@ def moves(position):
     movable = neighbors(null_cell)
     rep = []
     for (x,y) in movable:
+        moved = position[x][y]
         new_position = []
         for row in range(4):
             new_row = []
@@ -26,8 +27,8 @@ def moves(position):
                     new_row.append(position[null_cell[0]][null_cell[1]])
                 else:
                     new_row.append(position[row][column])
-            new_position.append(tuple(new_row))
-        rep.append(tuple(new_position))
+            new_position.append((tuple(new_row)))
+        rep.append((moved,tuple(new_position)))
     return rep
 
 def display(position):
@@ -55,7 +56,7 @@ def eval_pos(board, pathlength,e):
 
 epsilon=int(raw_input("What epsilon would you like? "))
 
-start = ([([in_puzzle], 0, eval_pos(in_puzzle,0,epsilon))],set())
+start = ([(in_puzzle, 0, eval_pos(in_puzzle,0,epsilon),[])],set())
 
 def Astar((tree,old)):
     best_f = 1000000000 # Big number
@@ -66,23 +67,23 @@ def Astar((tree,old)):
             best_node = node
 
     tree.remove(best_node)
-    old.add(best_node[0][0])
+    old.add(best_node[0])
     #best_node is now the node with the best distance+heuristic
-    new_poss = moves(best_node[0][0])
-    for pos in new_poss:
+    new_poss = moves(best_node[0])
+    for (moved,pos) in new_poss:
         if pos in old:
             continue
         g = best_node[1] + 1
         f = eval_pos(pos, g, epsilon)
-        tree.append(([pos]+best_node[0], g, f))
+        tree.append((pos, g, f, best_node[3]+[moved]))
     return best_node
 
 def mainloop():
-    x=0
-    best_node = Astar(start)[0]
-    while best_node[0][0] != win:
+    x=1000
+    best_node = Astar(start)
+    while best_node[0] != win:
         if x == 1000:
-            display(best_node[0][0])
+            display(best_node[0])
             print best_node[1]
             print
             x=0
