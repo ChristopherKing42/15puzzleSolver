@@ -46,3 +46,24 @@ def eval_pos(board):
             if board[i][x] == win[i][x]:
                 total +=1
     return total
+
+start = [([in_puzzle], 0, eval_pos(in_puzzle))]
+
+def Astar(tree):
+    new_tree = tree[:]
+    best_f = 1000000 # Big number
+    best_node = None
+    for node in tree:
+        if node[2] < best_f:
+            best_f = node[2]
+            best_node = node
+
+    new_tree.remove(best_node)
+    #best_node is now the node with the best distance+heuristic
+    new_poss = moves(best_node[0][0])
+    for pos in new_poss:
+        g = best_node[1] + 1
+        f = g + eval_pos(pos)
+        new_tree.append(([pos]+best_node[0], g, f))
+
+    return (best_node[0][0],new_tree)
