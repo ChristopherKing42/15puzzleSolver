@@ -46,12 +46,46 @@ def find_piece(position, num = None):
             if position[row][column] == num:
                 return row, column
 
+def signmatch(n1,n2):
+    if n1>0 and n2>0:
+        return True
+    elif n1<0 and n2<0:
+        return True
+    else:
+        return False
+
+def find_linear_conflicts(in_board): #Add only 1 per piece in linear conflict. This will lead to a total of 2 for every conflicted pair.
+    lin_conf_total=0
+    for i in range(4): #rows
+        for z in range(4): #pieces
+            tile=in_board[i][z]
+            ny,nx=find_piece(in_board, tile)
+            ny_,nx_=find_piece(win, tile)
+            for o in range(4): #other tiles in that row
+                other_tile=in_board[i][o]
+                if other_tile != tile:
+                    oy,ox=find_piece(in_board, other_tile)
+                    oy_,ox_=find_piece(win, other_tile)
+                    if ny==oy and ny_==oy_:
+                        if (nx_>ox>nx) or (nx>ox>nx_) or (ox<nx<ox_) or (ox>nx>ox_) or (nx==ox_ and not signmatch(nx_-nx,ox_-ox)): #The last part is so that, if they are traveling in the same direction, they aren't counted
+                            lin_conf_total+=1
+            for j in range(4): #other tiles in that column
+                other_tile=in_board[j][z]
+                if other_tile != tile:
+                    oy,ox=find_piece(in_board, other_tile)
+                    oy_,ox_=find_piece(win, other_tile)
+                    if nx==ox and nx_==ox_:
+                        if (ny_>oy>ny) or (ny>oy>ny_) or (oy<ny<oy_) or (oy>ny>oy_) or (ny==oy_ and not signmatch(ny_-ny,oy_-oy)):
+                            lin_conf_total+=1                       
+    return lin_conf_total
+            
 def eval_pos(board, pathlength,e):
     total=0
     for num in [None]+range(1,15+1):
         (x,y) = find_piece(board,num)
         (x_,y_) = find_piece(win,num)
         total += abs(x-x_) + abs(y-y_)
+    total+=find_linear_conflicts(board)
     return total*e+pathlength
 
 epsilon=int(raw_input("What epsilon would you like? "))
